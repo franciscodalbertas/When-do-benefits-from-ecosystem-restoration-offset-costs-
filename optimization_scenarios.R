@@ -1,6 +1,6 @@
 #===============================================================================
 
-# restoration scenarios allocating restoration pixels
+# restoration scenarios using an optimizing algorithm
 
 #===============================================================================
 
@@ -15,9 +15,13 @@ library(prioritizr)
 
 path <- "raster files path"
 #--- property limits -----------------------------------------------------------
+
 lim <- raster(paste0(path,"lim.tif"))
+
 #---- cost raster --------------------------------------------------------------
+
 co <- raster(paste0(path,"co.tif"))
+
 #---- APP ----------------------------------------------------------------------
 
 # areas of permanent protection -- as defined by landowners - were used as a 
@@ -27,7 +31,7 @@ app <- raster(paste0(path,"app.tif"))
 
 #---- Legal reserves -----------------------------------------------------------
 
-# Legal reserves, conferir uso!
+# Legal reserves
 
 RL <- raster(paste0(path,"RL.tif"))
 
@@ -47,16 +51,14 @@ CAR_list <- properties$CAR
 
 ## proportion of APP
 ## proportion of vegetation
-## A unique ID named CAR for each property
+## An unique ID (here named CAR) for each property
 
 
 #==== clipping rasters =========================================================
 
-# calculating (lembrar qq to calculandoa aqui!!)
-
 #---- empty lists to store rasters masked at the property level ----------------
 
-list_rasters <- list()
+list_rasters <- list() # listing the data objects clipped
 list_propveg <- list() # listing vegetation cover proportion
 list_proAPP <- list()  # listing APP proportion
 #lista_proAPP <- list()
@@ -87,8 +89,6 @@ for (i in properties) {
 
 # this considers baseline vegetation cover when defining the objective
 
-
-
 #---- target 10 ----------------------------------------------------------------
 
 target_moving_10 <- list()
@@ -100,6 +100,8 @@ for (i in seq(1,length(list_propveg),1)) {
     target_moving_10[[i]] <- relative_target - list_propveg[[i]] 
   }
 }
+
+target_moving_102 <- do.call(rbind,target_moving_10)[,1]
 
 #---- target 20 ----------------------------------------------------------------
 
@@ -173,7 +175,7 @@ problem_formulation <- function(relative_target,raster,pen,ef, solutions){
       
     }
     else{
-      #### problem fwith locked_in ############################################# 
+      #### problem with locked_in ############################################# 
       p <- problem(x = planning_unit,features = features)%>%
         add_min_set_objective()%>% 
         add_relative_targets(relative_target[[i]]) %>%  # % restauracao
@@ -283,7 +285,7 @@ cost <- costs_propriedade(solucao = s30,costs =lista_rasters )
 #---- 40 -----------------------------------------------------------
 cost <- costs_propriedade(solucao = s40,costs =lista_rasters )
 
-#---- combine into a single data.frame -------------------------------------------------------
+#---- combine into a single data.frame -----------------------------------------
 
 # repeat for each target
 
@@ -301,7 +303,7 @@ df_scenarios2[,c(2:3)] <- apply(df_scenarios2[,c(2:3)],MARGIN = 2,FUN =f4 )
 path.save <- "output file path"
 
 #### target 10 ##################################################################
-write.csv(df_scenarios2,paste0(path.save2,"area_costs_farm_level_t10_nopen.csv"))
+write.csv(df_scenarios2,paste0(path.save,"area_costs_farm_level_t10_nopen.csv"))
 #### target 20 ##################################################################
 write.csv(df_scenarios2,paste0(path.save,"area_costs_farm_level_t20_nopen.csv"))
 #### target 30 ##################################################################
