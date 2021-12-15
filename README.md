@@ -1,4 +1,3 @@
-# coffeYield
+# When do benefits from ecosystem restoration offset costs?
 
-scripts from the analysis of a chapter of my PhD. I wuill start with the 
-scenarios
+
