@@ -1,6 +1,7 @@
 #===============================================================================
 
-# restoration scenarios using an optimizing algorithm
+# restoration scenarios using an optimizing algorithm for regional-level restor-
+# ation
 
 #===============================================================================
 
@@ -34,15 +35,9 @@ co <- raster(paste0(path,"co.tif"))
 
 app <- raster(paste0(path,"app.tif"))
 
-#---- Legal reserves -----------------------------------------------------------
-
-# Legal reserves
-
-RL <- raster(paste0(path,"RL.tif"))
-
 #==== inserting data into a list ===============================================
 
-data <- list(lim,co,app,RL)
+data <- list(lim,co,app)
 
 #==== opening property boundaries ==============================================
 
@@ -172,15 +167,15 @@ list_rasters_s20 <- list()
 c=1
 
 for (i in CAR_listsub) {
-  ## subset de cada propriedade ###########################
-  prop <- propriedades[propriedades$CAR==i,]
+  ## subset each property ###########################
+  prop <- properties[properties$CAR==i,]
   ## funcao que cropa os raster ###########################
   f <- function(x)crop(x,extent(prop))
   costs_crop <- lapply(costs_solutions_s20,f)
-  ## extraindo raster de interesse ########################
+  ## extracting raster ########################
   f2 <- function(x)mask(x,prop)
   costs_mask <- lapply(costs_crop,f2)
-  ## inserindo na lista de rasters ########################
+  ## inserting into a list ########################
   list_rasters_s20[[c]] <- costs_mask 
   c=c+1
 }
@@ -192,15 +187,15 @@ list_rasters_s30 <- list()
 c=1
 
 for (i in CAR_listsub) {
-  ## subset de cada propriedade ###########################
+  ## subset each property ###########################
   prop <- propriedades[propriedades$CAR==i,]
-  ## funcao que cropa os raster ###########################
+  ## crop rasters ###########################
   f <- function(x)crop(x,extent(prop))
   costs_crop <- lapply(costs_solutions_s30,f)
-  ## extraindo raster de interesse ########################
+  ## extract raster ########################
   f2 <- function(x)mask(x,prop)
   costs_mask <- lapply(costs_crop,f2)
-  ## inserindo na lista de rasters ########################
+  ## inserting into a list ########################
   list_rasters_s30[[c]] <- costs_mask 
   c=c+1
 }
@@ -213,15 +208,15 @@ list_rasters_s40 <- list()
 c=1
 
 for (i in CAR_listsub) {
-  ## subset de cada propriedade ###########################
+  ## subset each property ###########################
   prop <- propriedades[propriedades$CAR==i,]
-  ## funcao que cropa os raster ###########################
+  ## crop rasters ###########################
   f <- function(x)crop(x,extent(prop))
   costs_crop <- lapply(costs_solutions_s40,f)
-  ## extraindo raster de interesse ########################
+  ## extract raster ########################
   f2 <- function(x)mask(x,prop)
   costs_mask <- lapply(costs_crop,f2)
-  ## inserindo na lista de rasters ########################
+  ## inserting into a list ########################
   list_rasters_s40[[c]] <- costs_mask 
   c=c+1
 }
