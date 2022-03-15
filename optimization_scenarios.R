@@ -1,6 +1,6 @@
 #===============================================================================
 
-# restoration scenarios using an optimizing algorithm
+# restoration scenarios using an optimizing algorithm for farm-level restoration
 
 #===============================================================================
 
