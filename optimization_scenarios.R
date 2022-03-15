@@ -29,15 +29,9 @@ co <- raster(paste0(path,"co.tif"))
 
 app <- raster(paste0(path,"app.tif"))
 
-#---- Legal reserves -----------------------------------------------------------
-
-# Legal reserves
-
-RL <- raster(paste0(path,"RL.tif"))
-
 #==== inserting data into a list ===============================================
 
-data <- list(lim,co,app,RL)
+data <- list(lim,co,app)
 
 #==== opening property boundaries ==============================================
 
@@ -252,9 +246,9 @@ area_restored <- function(solution){
 }
 
 #### 10 ###############################
-area <- area_restoreda(solution = s10)
+area <- area_restored(solution = s10)
 #### 20 ###############################
-area <- area_restoreda(solution = s20)
+area <- area_restored(solution = s20)
 #### 30 ###############################
 area <- area_restored(solution = s30)
 #### 40 ###############################
@@ -262,10 +256,10 @@ area <- area_restored(solution = s40)
 
 #==== restoration costs ========================================================
 
-costs <- function(soluction,costs){
-  lista_custos <- list()
+costs <- function(solution,costs){
+  list_ccosts <- list()
   
-  for (i in seq(1,length(soluction),1)) {
+  for (i in seq(1,length(solution),1)) {
     cost <- cellStats(costs[[i]][[2]] * solution[[i]][[1]], "sum")
     list_costs[[i]]<- cost
   }
@@ -277,19 +271,19 @@ costs <- function(soluction,costs){
 }
 
 #---- 10 -----------------------------------------------------------
-cost <- costs_propriedade(solucao = s10,costs =lista_rasters )
+cost <- costs_property(solution = s10,costs =list_rasters )
 #---- 20 -----------------------------------------------------------
-cost <- costs_propriedade(solucao = s20,costs =lista_rasters )
+cost <- costs_property(solution = s20,costs =list_rasters )
 #---- 30 -----------------------------------------------------------
-cost <- costs_propriedade(solucao = s30,costs =lista_rasters )
+cost <- costs_property(solution = s30,costs =list_rasters )
 #---- 40 -----------------------------------------------------------
-cost <- costs_propriedade(solucao = s40,costs =lista_rasters )
+cost <- costs_property(solution = s40,costs =list_rasters )
 
 #---- combine into a single data.frame -----------------------------------------
 
 # repeat for each target
 
-df_scenarios <- merge(area,custo,by="CAR")
+df_scenarios <- merge(area,cost,by="CAR")
 names(df_cenarios) <- c("CAR","area_rest_ha","cost_rest")
 
 #---- adjusting values to hectares ---------------------------------------------
