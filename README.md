@@ -12,7 +12,9 @@ The scripts to generate the farm-level scenarios and the regional-level scenario
 The properties boundaries and APP limits for the municipalities considered in this study can be obtained from the adress: 
 - https://www.car.gov.br/publico/imoveis/index. 
 
-The list of municipalities is located at the file "list_mun.csv" within the tables folder. Each property (n=507) is identified with an unique ID. The dataframe contains: - the predicted yield in coffee bags/ha (*predictec_coffee_bags*); 
+The list of municipalities is located at the file "list_mun.csv" within the tables folder. Each property (n=507) is identified with an unique ID. The dataframe contains: 
+
+- the predicted yield in coffee bags/ha (*predictec_coffee_bags*); 
 - yield in USD/ha (*yield_USD_future*); the difference in yield bewteen the future scenarios and the baseline scenario (*diff_USD*); 
 - the net present value of the difference between the future scenarios and the baseline (*npv_yield_USD_future*)
 
