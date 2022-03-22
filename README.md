@@ -1,26 +1,26 @@
 # When do benefits from ecosystem restoration offset costs?
 
-The raster with total restoration cost can be downloaded from the link:
+The raster with **total restoration cost** can be downloaded from the link:
 - https://drive.google.com/file/d/1IbrzknuhSCo6OWXMK5ICFwrYei6GMLYH/view?usp=sharing)
 
-The raster with potential for carbon sequestration is at the rasters folder (*carbon.tif*).
+The raster with **potential for carbon sequestration** is at the rasters folder (*carbon.tif*).
 
 The scripts to generate the farm-level scenarios and the regional-level scenarios are as following: 
 - **farm-level** = *optimization_scenarios.R*
 - **regional-level** = *optimization_scenarios_rl.R*
 
-The properties boundaries and APP limits for the municipalities considered in this study can be obtained from the adress: 
+The **properties boundaries** and **APP limits** for the municipalities considered in this study can be obtained from the adress: 
 - https://www.car.gov.br/publico/imoveis/index. 
 
-The list of municipalities is located at the file "list_mun.csv" within the tables folder.
+The **list of municipalities** is located at the file "list_mun.csv" within the tables folder.
 
-The raster with land-use and land-cover classes can be downloaded from the link: 
+The raster with **land-use and land-cover classes** can be downloaded from the link: 
 - https://drive.google.com/file/d/1MzchKACl3wKVLR24oAHOGtbWvx8s-W4_/view?usp=sharing
  - class 0: all other uses;
  - class 1: natural vegetation;
  - class 2: coffee;
 
-The estimated yield per property is at the yield_estimation.csv file. Each property (n=507) is identified with an unique ID. The dataframe contains: 
+The **estimated yield per property** is at the yield_estimation.csv file. Each property (n=507) is identified with an unique ID. The dataframe contains: 
 
 - the predicted yield in coffee bags/ha (*predictec_coffee_bags*); 
 - yield in USD/ha (*yield_USD_future*); the difference in yield bewteen the future scenarios and the baseline scenario (*diff_USD*); 
