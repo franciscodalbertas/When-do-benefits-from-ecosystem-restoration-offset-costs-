@@ -12,7 +12,7 @@ The scripts to generate the farm-level scenarios and the regional-level scenario
 The properties boundaries and APP limits for the municipalities considered in this study can be obtained from the adress: 
 - https://www.car.gov.br/publico/imoveis/index. 
 
-The list of municipalities is located at the file "list_mun.csv" within the tables folder)
+The list of municipalities is located at the file "list_mun.csv" within the tables folder.
 
 The raster with land-use and land-cover classes can be downloaded from the link: 
 - https://drive.google.com/file/d/1MzchKACl3wKVLR24oAHOGtbWvx8s-W4_/view?usp=sharing
