@@ -6,7 +6,8 @@ The raster with total restoration cost can be downloaded from the link:
 The raster with potential for carbon sequestration is at the rasters folder.
 
 The scripts to generate the farm-level scenarios and the regional-level scenarios are as following: 
-- **farm-level** = 
+- **farm-level** = optimization_scenarios.
+- **regional-level** = optimization_scenarios_rl.R
 
 The properties boundaries and APP limits for the municipalities considered in this study can be obtained from the adress: 
 - https://www.car.gov.br/publico/imoveis/index. 
