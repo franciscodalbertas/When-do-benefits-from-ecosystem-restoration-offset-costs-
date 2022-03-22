@@ -149,7 +149,7 @@ rclmat2 <- matrix(m2, ncol=3, byrow=TRUE)
 for (i in seq(1,4,1)) {
    scen <- raster(lista_scen_fl[[i]])
    scen_rc <- reclassify(scen,rclmat2)
-   writeRaster(scen_rc,file.path(path5,path5("futureLU_","fl_",i*10,"_rc.tif")))
+   writeRaster(scen_rc,file.path(path5,paste0("futureLU_","fl_",i*10,"_rc.tif")))
    
 }
 
@@ -160,7 +160,7 @@ c=20
 for (i in seq(1,3,1)) {
   scen <- raster(lista_scen_fl[[i]])
   scen_rc <- reclassify(scen,rclmat2)
-  writeRaster(scen_rc,file.path(path5,path5("futureLU_","rl_",c,"_rc.tif")))
+  writeRaster(scen_rc,file.path(path5,paste0("futureLU_","rl_",c,"_rc.tif")))
   c=c+10
   
 }
