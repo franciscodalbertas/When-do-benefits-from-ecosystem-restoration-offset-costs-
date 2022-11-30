@@ -1,4 +1,4 @@
-# When do benefits from ecosystem restoration offset costs?
+# When do benefits from ecosystem restoration offset costs in coffee farms?
 
 The raster with **total restoration cost** can be downloaded from the link:
 - https://drive.google.com/file/d/1IbrzknuhSCo6OWXMK5ICFwrYei6GMLYH/view?usp=sharing)
