@@ -125,7 +125,7 @@ a <- ggpar(a,font.x = c(8, "bold", "black"),font.y = c(8, "bold", "black"),
            font.xtickslab = c(8),font.ytickslab = c(8))+
   theme(legend.position = "none")
 
-b <- ggboxplot(data =df_Adrian,x='ID',y = 'FC2km',fill ='ID',ylab="mean forest cover (2km) ",
+b <- ggboxplot(data =df_Adrian,x='ID',y = 'FC2km',fill ='ID',ylab="mean forest cover (% in 2km) ",
                xlab="",outlier.shape=NA)+
   #stat_summary(fun.y=mean, geom="point", shape=23, size=2)+
   #ylim(0,0.3)+
