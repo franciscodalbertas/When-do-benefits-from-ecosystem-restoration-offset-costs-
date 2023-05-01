@@ -51,7 +51,7 @@ df$min_prop <- df$min/mean_pres
 
 #---- plot cashflow geral -----------------------------------------------------
 
-yl_cash <- "total cashflow (USD)"
+yl_cash <- "total cashflow (USD) x 1000"
 xl_cash <- expression("area restored ("~ha^-1~')')
 
 
