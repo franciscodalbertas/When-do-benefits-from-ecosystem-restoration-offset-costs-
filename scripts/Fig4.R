@@ -126,8 +126,8 @@ cost_benefit_veg <- ggpar(cost_benefit_veg,
 ggsave(filename ="figures/fig4_A_abscash.jpg",
        plot = cost_benefit_veg,
        units = "cm",
-       width = 10,
-       height =8,
+       width = 8, #10
+       height =7,  #8
        "jpeg")
 
 #---- substituir y absoluto por y relativo ------------------------------------
@@ -188,8 +188,8 @@ cost_benefit_prop_veg <- ggpar(cost_benefit_prop_veg,
 ggsave(filename ="figures/fig4_A_propcash.jpg",
        plot = cost_benefit_prop_veg,
        units = "cm",
-       width = 10,
-       height =8,
+       width = 7, #10
+       height =6,  # 6
        "jpeg")
 #---- separando cash flow em outras variaveis, como vegetação ------------------
 
@@ -309,37 +309,38 @@ cb$TonCO2 <- cb$TonC*(44/12)
 
 # calcular retorno do C
 
-valores <- c(5,20,25,30,35)
+valores <- c(5,20,25,30,35,80)
 
 f <- function(x)x*cb[,which(names(cb)=="TonCO2")]
 
 df_c <- cbind(cb,do.call(cbind,lapply(valores,f)))
 
-names(df_c)[55:59] <- c("5_USD","20_USD","25_USD","30_USD","35_USD")
+names(df_c)[55:60] <- c("5_USD","20_USD","25_USD","30_USD","35_USD","80_USD")
 
 df_c$c_b_sum_5 <- df_c$c_b +df_c$`5_USD`
 df_c$c_b_sum_20 <- df_c$c_b +df_c$`20_USD`
 df_c$c_b_sum_25 <- df_c$c_b +df_c$`25_USD`
 df_c$c_b_sum_30 <- df_c$c_b +df_c$`30_USD`
 df_c$c_b_sum_35 <- df_c$c_b +df_c$`35_USD`
+df_c$c_b_sum_80 <- df_c$c_b +df_c$`80_USD`
 
 which(names(df_c)=="c_b")
 which(names(df_c)=="c_b_sum_5")
 
-custos <- names(df_c)[c(52,60:64)]
+custos <- names(df_c)[c(52,61:66)]
 
 avg_cost_mean<- df_c %>%
   group_by(target,scale)%>%
   summarise_at(noquote(custos),c(mean))
 
-avg_cost_mean_l <- pivot_longer(data = avg_cost_mean,cols = 3:8)
+avg_cost_mean_l <- pivot_longer(data = avg_cost_mean,cols = 3:9)
 
 avg_cost_sd<- df_c  %>%
   group_by(target,scale)%>%
   summarise_at(noquote(custos),c(sd))
 
 
-avg_cost_sd_l <- pivot_longer(data = avg_cost_sd,cols = 3:8)
+avg_cost_sd_l <- pivot_longer(data = avg_cost_sd,cols = 3:9)
 
 
 avg_cost <- left_join(avg_cost_mean_l,avg_cost_sd_l,by=c("target","scale","name"))
@@ -364,7 +365,7 @@ avg_cost$min <- avg_cost$mean-avg_cost$se
 avg_cost$target <- factor(avg_cost$target, levels=c("present","fl10","fl20","rl20","fl30","rl30","fl40","rl40"))
 
 avg_cost$name <- factor(avg_cost$name, levels=c("c_b","c_b_sum_5","c_b_sum_20",
-                                                "c_b_sum_25","c_b_sum_30","c_b_sum_35"))
+                                                "c_b_sum_25","c_b_sum_30","c_b_sum_35","c_b_sum_80"))
 
 
 yl_cash <- "total cashflow (USD)x1000"
@@ -376,12 +377,17 @@ carbon_names <- list(
   'c_b_sum_20'="20 USD carbon",
   'c_b_sum_25'="25 USD carbon",
   'c_b_sum_30'="30 USD carbon",
-  'c_b_sum_35'="35 USD carbon"
+  'c_b_sum_35'="35 USD carbon",
+  'c_b_sum_80'="80 USD carbon"
 )
 
 carbon_labeller <- function(variable,value){
   return(carbon_names[value])
 }
+
+# ordering the plots
+
+avg_cost$target <- factor(avg_cost$target, levels=c("present","fl10","fl20","rl20","fl30","rl30","fl40","rl40"))
 
 carbon_pannel <- avg_cost %>%
   filter(target!="present")%>%
@@ -406,6 +412,8 @@ carbon_pannel <- avg_cost %>%
 
 carbon_panel <- ggpar(carbon_pannel,font.x = c(8, "bold", "black"),font.y = c(8, "bold", "black"),
                font.xtickslab = c(8),font.ytickslab = c(8),axis.title.x=element_text(face = "bold"))
+
+ggsave(filename = "figures/figS7.jpg",plot = carbon_panel,width = 13,height = 15,units = "cm")
 
 
 # filtrar so carbon 20
@@ -442,6 +450,15 @@ carbon_20 <- ggpar(carbon_20,font.y = c(8, "bold", "black"),font.ytickslab = c(8
 #combined <- ggarrange(plot_low_veg,plot_high_veg,labels = c("A","B"))
 panel_results <- ggarrange(plot_low_veg,plot_high_veg,carbon_20,labels = c("A","B","C"))
 
+panel_results2 <- ggarrange(plot_low_veg,plot_high_veg,carbon_20,labels = c("A","B","C"),ncol = 3, heights = c(1, 1, 1))
+
+# nao ta alinhado
+
+library(egg)
+
+# Align the plots horizontally
+
 panel_results2 <- ggarrange(plot_low_veg,plot_high_veg,carbon_20,labels = c("A","B","C"),ncol = 3)
+
 
 ggsave(filename = "figures/fig4_C.jpg",plot = panel_results2,width = 19,height = 7,units = "cm")

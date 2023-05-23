@@ -16,16 +16,16 @@ library(doBy)
 
 cb <- read.csv("tables/results_df_noAPP_LRscen_scale_renamed_sen_renamed.csv")
 
-# ordering targets
-
-cb$target <- factor(cb$targe, levels=c("present", 
-                                       "indiv10",
-                                       "indiv20",
-                                       "int20",
-                                       "indiv30",
-                                       "int30",
-                                       "indiv40",
-                                        "int40"))
+# # ordering targets
+# 
+# cb$target <- factor(cb$targe, levels=c("present", 
+#                                        "indiv10",
+#                                        "indiv20",
+#                                        "int20",
+#                                        "indiv30",
+#                                        "int30",
+#                                        "indiv40",
+#                                         "int40"))
 
 ##### calculating costs and benefits #########################################
 
@@ -419,6 +419,16 @@ coff_total$perc <- coff_total$area_coffe_field_ha.sum/
   coff_total$area_coffe_field_ha.sum[coff_total$target=="present"]
 
 coff_total$perc_loss <- (1-coff_total$perc )*100
+
+coff_total$target <- factor(coff_total$target, levels=c("present",
+                                                        "fl10",
+                                                        "fl20",
+                                                        "rl20",
+                                                        "fl30",
+                                                        "rl30",
+                                                        "fl40",
+                                                        "rl40"))
+
 
 yl <- "coffee area loss (%)"
 

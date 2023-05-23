@@ -53,9 +53,6 @@ write.csv(cb,"tables/results_df_noAPP_LRscen_scale_renamed_sen_renamed_final.csv
 
 cb$NetChange_cat <- ifelse(cb$NPV_yield_d_n.progr<0,yes = "n",no = "p") 
 
-
-
-?gather
 # aggregating data x scen
 
 cb_agg <- cb%>%
@@ -99,6 +96,7 @@ cb_long2$cat <- factor(cb_long2$cat, levels=c("negative net changes",
                                             "comp_gains" ))
 
 library(RColorBrewer)
+
 palette <- brewer.pal(9, "RdBu")[c(1,2,3,4,7,8)]
 
 
@@ -107,38 +105,33 @@ palette <- brewer.pal(9, "RdBu")[c(1,2,3,4,7,8)]
 
 y_l <-"cashflow (USD) x 1000" 
 
+# df with net value
+
+netvalue <- cb_long2 %>%
+  group_by_at(1)%>%
+  summarise(net=sum(value_1000))
+
+library(scales)
 
 
-barplot <- ggplot(cb_long2, aes(x = target, y = value_1000, fill = cat)) +
-  geom_bar(stat = "identity", position = "identity",col="white") +
+barplot <- cb_long2%>%
+  #filter(cat!="negative net changes")%>%
+  #filter(cat!="positive net changes")%>%
+  ggplot( aes(x = target, y = value_1000, fill = cat)) +
+  geom_bar(stat = "identity",col="white",position="stack") +
+  geom_point(data = netvalue,mapping = aes(x=target,y=net),fill=NA,show.legend = FALSE)+
   scale_fill_manual(values = c("#B2182B", "#D6604D","#F4A582", "#FDDBC7", "#92C5DE","#2166AC"),labels=c("production negative net changes","opportunity cost","restoration cost","compensation cost","production positive net changes","compensation gain")) +
   coord_flip() +
   labs(title = "", x = "", y = y_l) +
-  #scale_y_log10(labels = comma) +
+    #scale_y_log10(labels = comma) +
   scale_y_continuous(labels = comma) +
+  # adding net value
   theme_classic() +
   labs(title = "", x = "", y = y_l, fill = "")+
-  # theme(
-  #   legend.position = "bottom",
-  #   axis.text.y = element_blank(),
-  #   panel.grid.major.y = element_blank(),
-  #   panel.grid.minor.y = element_blank()
-  # ) +
   # Add a line at the zero point
   geom_hline(yintercept = 0, color = "black", size = 1, linetype = "dotdash") +
   theme(legend.position = "top")
-  # Adjust the position of the labels
-  # geom_text(
-  #   aes(label = abs(value), y = ifelse(position == "positive", value + 25, value - 25)),
-  #   size = 3
-  # ) +
-  # # Adjust the colors and the fill of the bars
-  # scale_fill_manual(
-  #   values = c("cost_1" = "red", "cost_2" = "red", "benefit_1" = "green", "benefit_2" = "green"),
-  #   guide = guide_legend(
-  #     override.aes = list(fill = c("red", "red", "green", "green"))
-  #   )
-  # )
+  
 
 
 barplot <- ggpar(barplot,font.x = c(8, "bold", "black"),font.y = c(8, "bold", "black"), font.xtickslab = c(8),font.ytickslab = c(8), legend.size = 8)
