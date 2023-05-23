@@ -18,14 +18,14 @@ cb <- read.csv("tables/results_df_noAPP_LRscen_scale_renamed_sen_renamed.csv")
 
 # # ordering targets
 # 
-# cb$target <- factor(cb$targe, levels=c("present", 
-#                                        "indiv10",
-#                                        "indiv20",
-#                                        "int20",
-#                                        "indiv30",
-#                                        "int30",
-#                                        "indiv40",
-#                                         "int40"))
+cb$target <- factor(cb$target, levels=c("present",
+                                       "fl10",
+                                       "fl20",
+                                       "rl20",
+                                       "fl30",
+                                       "rl30",
+                                       "fl40",
+                                        "rl40"))
 
 ##### calculating costs and benefits #########################################
 
@@ -247,6 +247,16 @@ avg_co$max <- avg_co$NPV_restoration_area.mean+avg_co$se
 avg_co$min <- avg_co$NPV_restoration_area.mean-avg_co$se
 
 yl_co <- expression(atop("opportunity cost", paste('(',"USD", ~ha^-1,')')))
+
+avg_co$target <- factor(avg_co$target, levels=c("present",
+                                                "fl10",
+                                                "fl20",
+                                                "rl20",
+                                                 "fl30",
+                                                 "rl30",
+                                                 "fl40",
+                                                 "rl40" ))
+                        
 
 
 co <- ggplot(avg_co[avg_co$target!="present",], aes(x=target, y=NPV_restoration_area.mean, color=scale, group = target)) + 

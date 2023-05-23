@@ -29,8 +29,6 @@ Biom <- read_biomes(simplified = T)%>%filter(name_biome=="Mata Atlântica")
 
 df_Adrian <- read.csv("tables/metricas_studysite_Gonzalez_Chaves_2021.csv")
 
-#df_Adrian <- read.csv(paste0(path,"area_variedade.csv")) apagar
-
 #### municipios BR ######################
 
 Mun <- read_municipality()
@@ -38,11 +36,11 @@ Mun <- read_municipality()
 MunAdrian <- filter(Mun,code_muni %in% df_Adrian$codigo_ibg)
 
 # check here which variables were needed
-Mun_Adrian2 <- merge(Mun_Adrian,df_Adrian[,c(1,4:16)],by.y="cod",by.x="CD_GEOCMU")
+
+#Mun_Adrian2 <- merge(MunAdrian,df_Adrian[,c(1,4:16)],by.y="cod",by.x="CD_GEOCMU")
 
 MunAdrian2 <- left_join(MunAdrian,df_Adrian,by=join_by(code_muni==codigo_ibg))
 
-?left_join
 
 #### AE ##########################
 
@@ -184,9 +182,21 @@ plots <- ggarrange(a,b,c, labels=c("C","D","E"),ncol=3,legend = NULL)
 
 # plots <- ggarrange(a,b,c, labels=c("C","D","E"),ncol=3,legend = NULL,margin = list(top = 0.5, bottom = 0.5, left = 0.5, right = 0.5))[[1]]
 
+up <- ggarrange(Fig1A,farms)
+down <- ggarrange(a,b,c,ncol=3)
+
+#completa <- ggarrange(fig_a_b,plots,nrow = 2,heights = c(3, 1),legend = NULL)
+
+# assim os labels ficam certos
+
+completa <-ggarrange(up,down,nrow = 2,heights = c(3, 1),legend = NULL)+ 
+  annotate("text", x = 0.03, y = 0.95, label = "A", fontface = "bold")+
+  annotate("text", x = 0.03, y = 0.30, label = "C", fontface = "bold")+
+  annotate("text", x = 0.45, y = 0.95, label = "B", fontface = "bold")+
+  annotate("text", x = 0.365, y = 0.30, label = "D", fontface = "bold")+
+  annotate("text", x = 0.70, y = 0.30, label = "E", fontface = "bold")
 
 
-completa <- ggarrange(fig_a_b,plots,nrow = 2,heights = c(3, 1),legend = NULL)
 
 # ggarrange(fig_a_b,plots,nrow = 2,heights = c(3.5, 1),legend = NULL,
 #           label.y = c(1,1,1.5,1.5,1.5,1.5))
@@ -194,7 +204,7 @@ completa <- ggarrange(fig_a_b,plots,nrow = 2,heights = c(3, 1),legend = NULL)
 # save <- "D:\\Doutorado\\cap2\\manuscrito\\figuras_novas\\"
 
 ggsave(filename = "figures/fig1.jpeg",plot = completa,
-       dpi = 300,width = 19,height = 18,units = "cm" )
+       dpi = 300,width = 19,height = 18,units = "cm" )#18
 
 # ggsave(filename = paste0("studysite_compl.jpeg"),plot = completa,
 #        dpi = 300,width = 19,height = 18,units = "cm" )
