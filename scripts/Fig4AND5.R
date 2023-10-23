@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 
-# Figure 4. cashflow 
+# Figure 4. cashflow and fig. 5
 
 #-------------------------------------------------------------------------------
 
@@ -442,4 +442,4 @@ library(egg)
 panel_results2 <- ggarrange(plot_low_veg,plot_high_veg,carbon_20,labels = c("A","B","C"),ncol = 3)
 
 
-ggsave(filename = "figures/fig4_C.jpg",plot = panel_results2,width = 19,height = 7,units = "cm")
+ggsave(filename = "figures/fig5.jpg",plot = panel_results2,width = 19,height = 7,units = "cm")
