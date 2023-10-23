@@ -1,10 +1,10 @@
-#===============================================================================
+#-------------------------------------------------------------------------------
 
 # Figure 4. cashflow 
 
-#===============================================================================
+#-------------------------------------------------------------------------------
 
-#==== pacote ===================================================================
+#-------------------------------------------------------------------------------
 
 library(dplyr)
 library(doBy)
@@ -16,7 +16,7 @@ library(ggrepel)
 library(doBy)
 library(scales)
 
-#==============================================================================
+#-------------------------------------------------------------------------------
 
 # scenarios data frame 
 
@@ -191,7 +191,7 @@ ggsave(filename ="figures/fig4_A_propcash.jpg",
        width = 7, #10
        height =6,  # 6
        "jpeg")
-#---- separando cash flow em outras variaveis, como vegetação ------------------
+# spliting cash flow
 
 q1 <-  summary(cb$PropVeg)[2]
 m <- median(cb$PropVeg)
@@ -200,7 +200,6 @@ q3 <- summary(cb$PropVeg)[5]
 cb$VegCat <- NA
 
 cb$VegCat[cb$PropVeg<=m] <- 'b'
-#cb$VegCat[cb$PropVeg>m&cb$PropVeg<=q3] <- 'media'
 cb$VegCat[cb$PropVeg>m] <- 'a'
 
 nrow(cb[cb$PropVeg<=m&cb$target=='present',])
@@ -259,11 +258,9 @@ plot_low_veg <- df2%>%
   theme_bw()+
   theme(legend.position = "none",legend.title = element_blank())+
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
-  #theme(legend.position = "none")+
   labs(y= yl_cash2, x = "")+
   theme(axis.title = element_text(size = 14))+
   scale_y_continuous(breaks = seq(-0.2,0.07,0.04),limits = c(-0.2,0.07))+
-  #scale_x_continuous(labels = scales::comma)+
   geom_hline(yintercept=0, linetype="dashed", color = "red",size=0.7)+
   ggtitle("<10% forest cover")
 
@@ -286,28 +283,23 @@ plot_high_veg <- df2%>%
   theme_bw()+
   theme(legend.position = "none",legend.title = element_blank())+
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
-  #theme(legend.position = "none")+
   labs(y= yl_cash2, x = "")+
   theme(axis.title = element_text(size = 14))+
   scale_y_continuous(breaks = seq(-0.2,0.07,0.04),limits = c(-0.2,0.07))+
-  #scale_x_continuous(labels = scales::comma)+
   geom_hline(yintercept=0, linetype="dashed", color = "red",size=0.7)+
   ggtitle(">10% forest cover")
 
 plot_high_veg <- ggpar(plot_high_veg,font.y = c(8, "bold", "black"),font.ytickslab = c(8),font.main = c(9,"bold"))
 
-
-# (>10% forest cover)
-#(>10% forest cover
 combined <- ggarrange(plot_low_veg,plot_high_veg,labels = c("A","B"))
 
-#---- adicionar carbono --------------------------------------------------------
+#---- adding carbon ------------------------------------------------------------
 
-# convertendo pra CO2 
+# converting to CO2 
 
 cb$TonCO2 <- cb$TonC*(44/12)
 
-# calcular retorno do C
+# calculating return
 
 valores <- c(5,20,25,30,35,80)
 
@@ -359,7 +351,7 @@ avg_cost$max <- avg_cost$mean+avg_cost$se
 avg_cost$min <- avg_cost$mean-avg_cost$se
 
 
-#---- plotando -----------------------------------------------------------------
+# ploting
 
 
 avg_cost$target <- factor(avg_cost$target, levels=c("present","fl10","fl20","rl20","fl30","rl30","fl40","rl40"))
@@ -394,18 +386,13 @@ carbon_pannel <- avg_cost %>%
   ggplot(aes(x=target, y=mean,color=target, group = target)) + 
   geom_pointrange(aes(ymin=min, ymax=max),  
                   show.legend = F)+
-  #geom_text_repel(aes(label=target),hjust=0, vjust=1,angle=90,size = 2.5)+ 
-  #scale_colour_viridis_d( option = "B",alpha=0.7)+
-  #scale_color_npg()+
   scale_color_brewer(palette = "Paired")+
   theme_bw()+
   theme(legend.position = "top",legend.title = element_blank())+
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
-  #theme(legend.position = "none")+
   labs(y= yl_cash, x = xl_cash)+
   theme(axis.title = element_text(size = 14))+
   scale_y_continuous(labels =  function(y) y / 1000)+
-  #scale_x_continuous(labels = scales::comma)+
   geom_hline(yintercept=0, linetype="dashed", color = "red",size=0.7)+
   facet_wrap(~name,labeller=carbon_labeller  )+ 
   theme(strip.background = element_blank())
@@ -416,7 +403,7 @@ carbon_panel <- ggpar(carbon_pannel,font.x = c(8, "bold", "black"),font.y = c(8,
 ggsave(filename = "figures/figS7.jpg",plot = carbon_panel,width = 13,height = 15,units = "cm")
 
 
-# filtrar so carbon 20
+# filtering  carbon 20
 
 carbon_20 <- avg_cost %>%
   filter(target!="present")%>%
@@ -427,20 +414,14 @@ carbon_20 <- avg_cost %>%
 ggplot(aes(x=target, y=mean,color=target, group = target)) + 
   geom_pointrange(aes(ymin=min, ymax=max),  
                   show.legend = F)+
-  #geom_text_repel(aes(label=target),hjust=0, vjust=1,angle=90,size = 2.5)+ 
-  #scale_colour_viridis_d( option = "B",alpha=0.7)+
-  #scale_color_npg()+
   scale_color_brewer(palette = "Paired")+
   theme_bw()+
   theme(legend.position = "top",legend.title = element_blank())+
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
-  #theme(legend.position = "none")+
   labs(y= yl_cash2, x = xl_cash)+
   theme(axis.title = element_text(size = 14))+
   scale_y_continuous(labels =  function(y) y / 1000,limits =c(-200,70),breaks = seq(-200,70,40))+
-  #scale_x_continuous(labels = scales::comma)+
   geom_hline(yintercept=0, linetype="dashed", color = "red",size=0.7)+
-  #facet_wrap(~name,labeller=carbon_labeller  )+ 
   theme(strip.background = element_blank())+
   ggtitle("carbon payment (20 USD/ton)")
 
@@ -452,7 +433,7 @@ panel_results <- ggarrange(plot_low_veg,plot_high_veg,carbon_20,labels = c("A","
 
 panel_results2 <- ggarrange(plot_low_veg,plot_high_veg,carbon_20,labels = c("A","B","C"),ncol = 3, heights = c(1, 1, 1))
 
-# nao ta alinhado
+
 
 library(egg)
 

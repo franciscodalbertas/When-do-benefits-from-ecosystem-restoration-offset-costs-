@@ -1,10 +1,10 @@
-#===============================================================================
+#-------------------------------------------------------------------------------
 
 # Figure 3. cashflow balance
 
-#===============================================================================
+#-------------------------------------------------------------------------------
 
-#==== pacote ===================================================================
+#-------------------------------------------------------------------------------
 
 library(dplyr)
 library(doBy)
@@ -12,8 +12,10 @@ library(tidyr)
 library(ggallin)
 library(scales)
 library(ggpubr)
+library(scales)
 
-#==============================================================================
+
+#-------------------------------------------------------------------------------
 
 # scenarios data frame 
 
@@ -34,14 +36,10 @@ cb$total_cost_minusCoffee[cb$target=='present'] <- 0
 
 cb$total_cost_minusCoffee[cb$NPV_restoration==0] <- 0
 
-summary(cb$total_cost_minusCoffee) # no negative costs - OK
-
 # calculating benefits (comp. gains and differences in yield)
 
 cb$total_benefits <- cb$Potential_comp_gain+cb$NPV_yield_d_n.progr
 cb$c_b <- cb$total_benefits - cb$total_cost_minusCoffee
-
-head(cb)
 
 # saving final df
 
@@ -67,7 +65,6 @@ cb_long <- cb_agg %>%
   pivot_longer(cols = 4:8)%>%
   mutate(cat=if_else(name=="changes_production"& NetChange_cat=="n","negative net changes",if_else(name=="changes_production"& NetChange_cat=="p","positive net changes",name)))%>%
   filter(target!="present")%>%
-# colocando custos como valores negativos
  mutate(value=if_else(cat=="comp_gains"|cat=="positive net changes",false = value*-1,true=value))%>% mutate(value=if_else(cat=="negative net changes",false = value,true=value*-1))%>%
   mutate(value_1000=value/1000)
   
@@ -111,12 +108,7 @@ netvalue <- cb_long2 %>%
   group_by_at(1)%>%
   summarise(net=sum(value_1000))
 
-library(scales)
-
-
 barplot <- cb_long2%>%
-  #filter(cat!="negative net changes")%>%
-  #filter(cat!="positive net changes")%>%
   ggplot( aes(x = target, y = value_1000, fill = cat)) +
   geom_bar(stat = "identity",col="white",position="stack") +
   geom_point(data = netvalue,mapping = aes(x=target,y=net),fill=NA,show.legend = FALSE)+
